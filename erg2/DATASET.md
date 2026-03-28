@@ -105,5 +105,5 @@
 
 ## Περιγραφικά στατιστικά στοιχεία
 
-<img src="images/history-Dehulidifier-plug.png" alt="histoy-Dehumidifier-plug" width="850">
+<img src="images/history-Dehulidifier-plug2.png" alt="histoy-Dehumidifier-plug" width="850">
 
