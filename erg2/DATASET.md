@@ -103,4 +103,9 @@
 
 <img src="images/AC.png" alt="ac" width="850">
 
+## Περιγραφικά στατιστικά στοιχεία
+
+### 
+
+<img src="images/  alt="a" width="850" 
 
