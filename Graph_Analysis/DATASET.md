@@ -103,7 +103,3 @@
 
 <img src="Dataset_images/AC.png" alt="ac" width="850">
 
-## Περιγραφικά στατιστικά στοιχεία
-
-<img src="images/history-Dehulidifier-plug2.png" alt="histoy-Dehumidifier-plug" width="850">
-
