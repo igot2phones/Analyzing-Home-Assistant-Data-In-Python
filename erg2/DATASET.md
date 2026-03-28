@@ -107,5 +107,5 @@
 
 ### 
 
-<img src="images/  alt="a" width="850" 
+<img src="images/history-Dehulidifier-plug.png" alt="histoy-Dehumidifier-plug" width="850" 
 
