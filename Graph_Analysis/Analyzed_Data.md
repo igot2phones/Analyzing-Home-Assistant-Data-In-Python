@@ -16,16 +16,16 @@
 
 H ελάχιστη τιμή της κατανάλωσης (W) δηλαδή το μικρότερο καταγραμμένο state στο διάστημα των 7ημερών είναι 
 
-Ο μέσος όρος της κατανάλωσης (W) στο διάστημα των 7ημερών είναι 101.37
+Ο μέση τιμή της κατανάλωσης (W) στο διάστημα των 7-ημερών ανέρχεται σε 101.37 και αποτυπώνεται με την κίτρινη διακκεκομένη γραμμή.
 
-<img src="Min-Max_&_avarage_images/history-Dehulidifier-plug2.png" alt="history-Dehulidifier-plug" width="850">
+<img src="Min-Max_&_avarage_images/plots-Dehymidifier/history-Dehulidifier-plug.png" alt="history-Dehumidifier-plug" width="850">
 
 ### 3a. Κλιματιστικό (Midea Living Room AC)
 
 Καταγραφή για μια εβδομάδα. 
 
-<img src="Min-Max_&_avarage_images/history-Midea-living room-AC.png" alt="history_Midea_living_room" width="850">
+<img src="Min-Max_&_avarage_images/plots-AC/history-Midea-living room-AC.png" alt="history_Midea_living_room" width="850">
 
 ### 3b. 1-day zoom
 
-<img src="Min-Max_&_avarage_images/history-Midea-living room-AC-1-day-zoom.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
+<img src="Min-Max_&_avarage_images/plots-AC/history-Midea-living room-AC-1-day-zoom.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
