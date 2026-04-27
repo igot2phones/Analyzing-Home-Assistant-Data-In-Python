@@ -125,6 +125,10 @@
 
 <img src="Min-Max_&_avarage_images/plots-AC/history-Midea-living room-AC-1-day-zoom.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
 
+<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/dehumidifier_power_and_humidity.png " alt="dehumidifier_power_and_humidity" width="850"> 
+
+<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png " alt="dehumidifier_power_and_humidity" width="850"> 
+
 ### 5. Θερμοκρασία
 
 Το γράφημα θερμοκρασίας για τις 8 ημέρες καταγραφής. 
