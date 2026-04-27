@@ -89,18 +89,14 @@ def main() -> None:
     output_folder.mkdir(parents=True, exist_ok=True)
 
     ac_csv = csv_folder / "history-Midea-living room-AC.csv"
-    humidity_csv = csv_folder / "Tapo_humidity_history.csv"
     temp_csv = csv_folder / "Tapo_temp_history.csv"
 
     if not ac_csv.exists():
         raise FileNotFoundError(f"Missing file: {ac_csv}")
-    if not humidity_csv.exists():
-        raise FileNotFoundError(f"Missing file: {humidity_csv}")
     if not temp_csv.exists():
         raise FileNotFoundError(f"Missing file: {temp_csv}")
 
     ac_df = load_ac_power_series(ac_csv)
-    humidity_df = load_series(humidity_csv, "humidity_pct")
     temp_df = load_series(temp_csv, "temp_c")
 
     ac_hourly = (
@@ -112,7 +108,6 @@ def main() -> None:
     )
 
     ac_stats_text = format_stats(ac_hourly["power_w"], "AC Power hourly avg", " W")
-    humidity_stats_text = format_stats(humidity_df["humidity_pct"], "Humidity", " %")
     temp_stats_text = format_stats(temp_df["temp_c"], "Temperature", " °C")
 
     fig, ax1 = plt.subplots(figsize=(13, 6))
@@ -131,35 +126,22 @@ def main() -> None:
     ax1.grid(True, alpha=0.3)
 
     ax2 = ax1.twinx()
+    ax2.set_ylabel("Temperature (°C)", color="tab:orange")
+    ax2.tick_params(axis="y", labelcolor="tab:orange")
     ax2.plot(
-        humidity_df["last_changed"],
-        humidity_df["humidity_pct"],
-        color="tab:green",
-        linewidth=2.0,
-        label="Humidity",
-    )
-    ax2.set_ylabel("Humidity (%)", color="tab:green")
-    ax2.tick_params(axis="y", labelcolor="tab:green")
-
-    ax3 = ax1.twinx()
-    ax3.spines["right"].set_position(("outward", 60))
-    ax3.plot(
         temp_df["last_changed"],
         temp_df["temp_c"],
         color="tab:orange",
         linewidth=2.0,
         label="Temperature",
     )
-    ax3.set_ylabel("Temperature (°C)", color="tab:orange")
-    ax3.tick_params(axis="y", labelcolor="tab:orange")
 
     ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d %H:%M"))
     plt.xticks(rotation=30)
 
     handles1, labels1 = ax1.get_legend_handles_labels()
     handles2, labels2 = ax2.get_legend_handles_labels()
-    handles3, labels3 = ax3.get_legend_handles_labels()
-    ax1.legend(handles1 + handles2 + handles3, labels1 + labels2 + labels3, loc="upper left")
+    ax1.legend(handles1 + handles2, labels1 + labels2, loc="upper left")
 
     ax1.text(
         0.02, 0.98, ac_stats_text,
@@ -172,18 +154,8 @@ def main() -> None:
     )
 
     ax2.text(
-        0.98, 0.98, humidity_stats_text,
-        transform=ax2.transAxes,
-        fontsize=10,
-        va="top",
-        ha="right",
-        color="tab:green",
-        bbox=dict(boxstyle="round", facecolor="white", alpha=0.85, edgecolor="tab:green"),
-    )
-
-    ax3.text(
         0.98, 0.75, temp_stats_text,
-        transform=ax3.transAxes,
+        transform=ax2.transAxes,
         fontsize=10,
         va="top",
         ha="right",
@@ -191,10 +163,10 @@ def main() -> None:
         bbox=dict(boxstyle="round", facecolor="white", alpha=0.85, edgecolor="tab:orange"),
     )
 
-    plt.title("Midea AC Hourly Average Power (bars), Humidity (green line) and Temperature (orange line)")
+    plt.title("Midea AC Hourly Average Power (bars) and Temperature (orange line)")
     plt.tight_layout()
 
-    output_file = output_folder / "midea_ac_power_humidity_and_temperature.png"
+    output_file = output_folder / "midea_ac_power_and_temperature.png"
     plt.savefig(output_file, dpi=300)
     plt.close()
 

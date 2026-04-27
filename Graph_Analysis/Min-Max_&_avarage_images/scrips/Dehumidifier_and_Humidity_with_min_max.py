@@ -62,18 +62,14 @@ def main() -> None:
 
     power_csv = csv_folder / "history-Dehulidifier-plug.csv"
     humidity_csv = csv_folder / "Tapo_humidity_history.csv"
-    temp_csv = csv_folder / "Tapo_temp_history.csv"
 
     if not power_csv.exists():
         raise FileNotFoundError(f"Missing file: {power_csv}")
     if not humidity_csv.exists():
         raise FileNotFoundError(f"Missing file: {humidity_csv}")
-    if not temp_csv.exists():
-        raise FileNotFoundError(f"Missing file: {temp_csv}")
 
     power_df = load_series(power_csv, "power_w")
     humidity_df = load_series(humidity_csv, "humidity_pct")
-    temp_df = load_series(temp_csv, "temp_c")
 
     power_hourly = (
         power_df.set_index("last_changed")
@@ -85,7 +81,6 @@ def main() -> None:
 
     power_stats_text = format_stats(power_hourly["power_w"], "Power hourly avg", " W")
     humidity_stats_text = format_stats(humidity_df["humidity_pct"], "Humidity", " %")
-    temp_stats_text = format_stats(temp_df["temp_c"], "Temperature", " °C")
 
     fig, ax1 = plt.subplots(figsize=(13, 6))
 
@@ -113,25 +108,12 @@ def main() -> None:
     ax2.set_ylabel("Humidity (%)", color="tab:green")
     ax2.tick_params(axis="y", labelcolor="tab:green")
 
-    ax3 = ax1.twinx()
-    ax3.spines["right"].set_position(("outward", 60))
-    ax3.plot(
-        temp_df["last_changed"],
-        temp_df["temp_c"],
-        color="tab:orange",
-        linewidth=2.0,
-        label="Temperature",
-    )
-    ax3.set_ylabel("Temperature (°C)", color="tab:orange")
-    ax3.tick_params(axis="y", labelcolor="tab:orange")
-
     ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m-%d %H:%M"))
     plt.xticks(rotation=30)
 
     handles1, labels1 = ax1.get_legend_handles_labels()
     handles2, labels2 = ax2.get_legend_handles_labels()
-    handles3, labels3 = ax3.get_legend_handles_labels()
-    ax1.legend(handles1 + handles2 + handles3, labels1 + labels2 + labels3, loc="upper left")
+    ax1.legend(handles1 + handles2, labels1 + labels2, loc="upper left")
 
     ax1.text(
         0.02, 0.98, power_stats_text,
@@ -153,20 +135,10 @@ def main() -> None:
         bbox=dict(boxstyle="round", facecolor="white", alpha=0.85, edgecolor="tab:green"),
     )
 
-    ax3.text(
-        0.98, 0.75, temp_stats_text,
-        transform=ax3.transAxes,
-        fontsize=10,
-        va="top",
-        ha="right",
-        color="tab:orange",
-        bbox=dict(boxstyle="round", facecolor="white", alpha=0.85, edgecolor="tab:orange"),
-    )
-
-    plt.title("Dehumidifier Hourly Average Power (bars), Humidity (green line) and Temperature (orange line)")
+    plt.title("Dehumidifier Hourly Average Power (bars) and Humidity (green line)")
     plt.tight_layout()
 
-    output_file = output_folder / "dehumidifier_power_humidity_and_temperature.png"
+    output_file = output_folder / "dehumidifier_power_and_humidity.png"
     plt.savefig(output_file, dpi=300)
     plt.close()
 
