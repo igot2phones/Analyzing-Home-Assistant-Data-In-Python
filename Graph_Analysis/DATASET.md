@@ -142,9 +142,9 @@
 
 Η θερμοκρασία κυμαίνεται από **16.33°C έως 22.15°C**, με μέση τιμή **17.72°C**. Παρατηρείται ότι όταν η θερμοκρασία αυξάνεται, ενεργοποιείται το κλιματιστικό, οδηγώντας σε πτώση της θερμοκρασίας, γεγονός που δείχνει λειτουργία με θερμοστάτη.
 
-<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png " alt="dehumidifier_power_and_humidity" width="850"> 
+<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png alt="ac_power_humidity_indoor_outside_temp" width="850"> 
 
-<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/Min-Max_&_avarage_images/plots-outside-temp/dehumidifier_power_humidity_indoor_outside_temp.png " alt="dehumidifier_power_humidity_indoor_outside_temp" width="850"> 
+<img src="Min-Max_&_avarage_images/plots-outside-temp/ac_power_humidity_indoor_outside_temp.png " alt="" width="850"> 
 
 ### Μεγέθυνση σε 1-ημέρα(Για 8 ώρες)
 Καταγραφή για 8 ώρες (17:00 εώς 01:00). Στην αρχή φαίνεται σταθερή κατάσταση με σχετικά υψηλή κατανάλωση, με μερικές πολύ ψηλές αιχμές (τυπικά συμβαίνουν σε εκκίνηση/απότομη αύξηση φορτίου). Στις 19:00 η ισχύς κυμαίνεται με συχνές μεταβολές, που μοιάζει με ρύθμιση inverter (ο συμπιεστής ανεβοκατεβάζει στροφές για να κρατήσει θερμοκρασία). Οι επαναλαμβανόμενες καταστάσεις δείχνουν φάσεις χαμηλής ισχύος/ρύθμισης.
