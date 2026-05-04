@@ -142,7 +142,7 @@
 
 Η θερμοκρασία κυμαίνεται από **16.33°C έως 22.15°C**, με μέση τιμή **17.72°C**. Παρατηρείται ότι όταν η θερμοκρασία αυξάνεται, ενεργοποιείται το κλιματιστικό, οδηγώντας σε πτώση της θερμοκρασίας, γεγονός που δείχνει λειτουργία με θερμοστάτη.
 
-<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png alt="midea_ac_power_and_temperature" width="850"> 
+<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png" alt="midea_ac_power_and_temperature" width="850"> 
 
 <img src="Min-Max_&_avarage_images/plots-outside-temp/ac_power_humidity_indoor_outside_temp.png " alt="ac_power_humidity_indoor_outside_temp" width="850"> 
 
