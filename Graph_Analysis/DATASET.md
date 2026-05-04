@@ -112,6 +112,8 @@
 
 <img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/dehumidifier_power_and_humidity.png " alt="dehumidifier_power_and_humidity" width="850"> 
 
+<img src="Min-Max_&_avarage_images/plots-outside-temp/dehumidifier_power_humidity_indoor_outside_temp.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
+
 
 ### B. Κλιματιστικό (Midea Living Room AC)
 
@@ -152,5 +154,3 @@
 - Η μέση τιμή της κατανάλωσης των παραδειγματικών ωρών ανέρχεται σε 943.14 W και αποτυπώνεται με την πράσινη διακκεκομένη γραμμή.
 
 <img src="Min-Max_&_avarage_images/plots-AC/history-Midea-living room-AC-1-day-zoom.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
-
-<img src="Min-Max_&_avarage_images/plots-outside-temp/dehumidifier_power_humidity_indoor_outside_temp.png" alt="history_Midea_living_room-AC-1-day-zoom" width="850">
