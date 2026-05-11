@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-# Move the temperature axis far enough right to keep it separate from humidity labels.
+# 55 points leaves a clear gap between humidity and temperature labels on the figure.
 TEMPERATURE_AXIS_OFFSET = 55
 
 
@@ -63,6 +63,23 @@ def plot_all_data_graph(
     outside_temp_df: pd.DataFrame,
     weather_humidity_df: pd.DataFrame,
 ) -> None:
+    required_plot_data = {
+        "power data": (power_hourly, {"last_changed", "power_w"}),
+        "indoor humidity data": (humidity_df, {"last_changed", "humidity_pct"}),
+        "indoor temperature data": (temp_df, {"last_changed", "temp_c"}),
+        "outside temperature data": (outside_temp_df, {"last_changed", "outside_temp_c"}),
+        "weather humidity data": (
+            weather_humidity_df,
+            {"last_changed", "weather_humidity_pct"},
+        ),
+    }
+    for data_name, (df, required_columns) in required_plot_data.items():
+        if df is None:
+            raise ValueError(f"Missing {data_name}.")
+        missing_columns = required_columns - set(df.columns)
+        if missing_columns:
+            raise ValueError(f"{data_name} missing columns: {missing_columns}")
+
     axes = [ax]
 
     ax.bar(
