@@ -110,9 +110,9 @@
 
 Παράλληλα, η υγρασία κυμαίνεται μεταξύ **49.83% και 64.00%**, με μέση τιμή **57.05%**. Παρατηρείται ότι όταν η υγρασία αυξάνεται, η συσκευή ενεργοποιείται συχνότερα, ενώ όταν μειώνεται, η κατανάλωση περιορίζεται σημαντικά.
 
-<img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/dehumidifier_power_and_humidity.png " alt="dehumidifier_power_and_humidity" width="850"> 
+<img src="plots/dehumidifier_progressive_power_humidity_temperatures.png " alt="dehumidifier_power_and_humidity" width="850"> 
 
-<img src="Min-Max_&_avarage_images/plots-outside-temp/dehumidifier_power_humidity_indoor_outside_temp.png" alt="dehumidifier_power_and_humidity" width="850">
+<img src="plots/dehumidifier_all_data_with_weather_humidity.png " alt="dehumidifier_power_and_humidity" width="850">
 
 
 ### B. Κλιματιστικό (Midea Living Room AC)
