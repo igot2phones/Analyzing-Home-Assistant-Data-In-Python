@@ -110,9 +110,9 @@
 
 Παράλληλα, η υγρασία κυμαίνεται μεταξύ **49.83% και 64.00%**, με μέση τιμή **57.05%**. Παρατηρείται ότι όταν η υγρασία αυξάνεται, η συσκευή ενεργοποιείται συχνότερα, ενώ όταν μειώνεται, η κατανάλωση περιορίζεται σημαντικά.
 
-<img src="plots/dehumidifier_progressive_power_humidity_temperatures.png " alt="dehumidifier_power_and_humidity" width="850"> 
+<img src="../plots/dehumidifier_progressive_power_humidity_temperatures.png" alt="dehumidifier_power_and_humidity" width="850"> 
 
-<img src="plots/dehumidifier_all_data_with_weather_humidity.png " alt="dehumidifier_power_and_humidity" width="850">
+<img src="../plots/dehumidifier_all_data_with_weather_humidity.png" alt="dehumidifier_power_and_humidity" width="850">
 
 
 ### B. Κλιματιστικό (Midea Living Room AC)
@@ -144,7 +144,7 @@
 
 <img src="Min-Max_&_avarage_images/plots-layerd-with-avarage/midea_ac_power_and_temperature.png" alt="midea_ac_power_and_temperature" width="850"> 
 
-<img src="Min-Max_&_avarage_images/plots-outside-temp/ac_power_humidity_indoor_outside_temp.png " alt="ac_power_humidity_indoor_outside_temp" width="850"> 
+<img src="Min-Max_&_avarage_images/plots-outside-temp/ac_power_humidity_indoor_outside_temp.png" alt="ac_power_humidity_indoor_outside_temp" width="850"> 
 
 ### Μεγέθυνση σε 1-ημέρα(Για 8 ώρες)
 Καταγραφή για 8 ώρες (17:00 εώς 01:00). Στην αρχή φαίνεται σταθερή κατάσταση με σχετικά υψηλή κατανάλωση, με μερικές πολύ ψηλές αιχμές (τυπικά συμβαίνουν σε εκκίνηση/απότομη αύξηση φορτίου). Στις 19:00 η ισχύς κυμαίνεται με συχνές μεταβολές, που μοιάζει με ρύθμιση inverter (ο συμπιεστής ανεβοκατεβάζει στροφές για να κρατήσει θερμοκρασία). Οι επαναλαμβανόμενες καταστάσεις δείχνουν φάσεις χαμηλής ισχύος/ρύθμισης.
