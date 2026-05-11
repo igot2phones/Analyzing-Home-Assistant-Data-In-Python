@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+# Move the temperature axis far enough right to keep it separate from humidity labels.
 TEMPERATURE_AXIS_OFFSET = 55
 
 
