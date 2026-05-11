@@ -64,21 +64,21 @@ def plot_all_data_graph(
     weather_humidity_df: pd.DataFrame,
 ) -> None:
     required_plot_data = {
-        "power data": (power_hourly, {"last_changed", "power_w"}),
-        "indoor humidity data": (humidity_df, {"last_changed", "humidity_pct"}),
-        "indoor temperature data": (temp_df, {"last_changed", "temp_c"}),
-        "outside temperature data": (outside_temp_df, {"last_changed", "outside_temp_c"}),
-        "weather humidity data": (
+        "power_hourly": (power_hourly, {"last_changed", "power_w"}),
+        "humidity_df": (humidity_df, {"last_changed", "humidity_pct"}),
+        "temp_df": (temp_df, {"last_changed", "temp_c"}),
+        "outside_temp_df": (outside_temp_df, {"last_changed", "outside_temp_c"}),
+        "weather_humidity_df": (
             weather_humidity_df,
             {"last_changed", "weather_humidity_pct"},
         ),
     }
-    for data_name, (df, required_columns) in required_plot_data.items():
+    for parameter_name, (df, required_columns) in required_plot_data.items():
         if df is None:
-            raise ValueError(f"Missing {data_name}.")
+            raise ValueError(f"Missing required DataFrame parameter: {parameter_name}.")
         missing_columns = required_columns - set(df.columns)
         if missing_columns:
-            raise ValueError(f"{data_name} missing columns: {missing_columns}")
+            raise ValueError(f"{parameter_name} missing columns: {missing_columns}")
 
     axes = [ax]
 
