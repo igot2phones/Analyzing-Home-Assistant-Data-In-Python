@@ -51,14 +51,13 @@ def combine_legends(axes: list[plt.Axes]) -> tuple[list, list]:
     return handles, labels
 
 
-def plot_progressive_graph(
+def plot_all_data_graph(
     ax: plt.Axes,
-    title: str,
     power_hourly: pd.DataFrame,
-    humidity_df: pd.DataFrame | None = None,
-    temp_df: pd.DataFrame | None = None,
-    outside_temp_df: pd.DataFrame | None = None,
-    weather_humidity_df: pd.DataFrame | None = None,
+    humidity_df: pd.DataFrame,
+    temp_df: pd.DataFrame,
+    outside_temp_df: pd.DataFrame,
+    weather_humidity_df: pd.DataFrame,
 ) -> None:
     axes = [ax]
 
@@ -70,58 +69,54 @@ def plot_progressive_graph(
         alpha=0.65,
         label="Hourly Power Avg",
     )
-    ax.set_title(title)
+    ax.set_title(
+        "Dehumidifier Power, Indoor Conditions, Outside Temperature, "
+        "and Weather Station Humidity"
+    )
     ax.set_ylabel("Power (W)", color="tab:blue")
     ax.tick_params(axis="y", labelcolor="tab:blue")
     ax.grid(True, alpha=0.3)
 
-    if humidity_df is not None or weather_humidity_df is not None:
-        humidity_ax = ax.twinx()
-        axes.append(humidity_ax)
-        if humidity_df is not None:
-            humidity_ax.plot(
-                humidity_df["last_changed"],
-                humidity_df["humidity_pct"],
-                color="tab:green",
-                linewidth=1.8,
-                label="Indoor Humidity",
-            )
-        if weather_humidity_df is not None:
-            humidity_ax.plot(
-                weather_humidity_df["last_changed"],
-                weather_humidity_df["weather_humidity_pct"],
-                color="tab:purple",
-                linewidth=1.8,
-                linestyle=":",
-                label="Weather Station Humidity",
-            )
-        humidity_ax.set_ylabel("Humidity (%)", color="tab:green")
-        humidity_ax.tick_params(axis="y", labelcolor="tab:green")
+    humidity_ax = ax.twinx()
+    axes.append(humidity_ax)
+    humidity_ax.plot(
+        humidity_df["last_changed"],
+        humidity_df["humidity_pct"],
+        color="tab:green",
+        linewidth=1.8,
+        label="Indoor Humidity",
+    )
+    humidity_ax.plot(
+        weather_humidity_df["last_changed"],
+        weather_humidity_df["weather_humidity_pct"],
+        color="tab:purple",
+        linewidth=1.8,
+        linestyle=":",
+        label="Weather Station Humidity",
+    )
+    humidity_ax.set_ylabel("Humidity (%)", color="tab:green")
+    humidity_ax.tick_params(axis="y", labelcolor="tab:green")
 
-    if temp_df is not None or outside_temp_df is not None:
-        temp_ax = ax.twinx()
-        axes.append(temp_ax)
-        if humidity_df is not None or weather_humidity_df is not None:
-            temp_ax.spines["right"].set_position(("outward", 50))
-        if temp_df is not None:
-            temp_ax.plot(
-                temp_df["last_changed"],
-                temp_df["temp_c"],
-                color="tab:orange",
-                linewidth=1.8,
-                label="Indoor Temperature",
-            )
-        if outside_temp_df is not None:
-            temp_ax.plot(
-                outside_temp_df["last_changed"],
-                outside_temp_df["outside_temp_c"],
-                color="tab:red",
-                linewidth=1.8,
-                linestyle="--",
-                label="Outside Temperature",
-            )
-        temp_ax.set_ylabel("Temperature (°C)", color="tab:orange")
-        temp_ax.tick_params(axis="y", labelcolor="tab:orange")
+    temp_ax = ax.twinx()
+    axes.append(temp_ax)
+    temp_ax.spines["right"].set_position(("outward", 55))
+    temp_ax.plot(
+        temp_df["last_changed"],
+        temp_df["temp_c"],
+        color="tab:orange",
+        linewidth=1.8,
+        label="Indoor Temperature",
+    )
+    temp_ax.plot(
+        outside_temp_df["last_changed"],
+        outside_temp_df["outside_temp_c"],
+        color="tab:red",
+        linewidth=1.8,
+        linestyle="--",
+        label="Outside Temperature",
+    )
+    temp_ax.set_ylabel("Temperature (°C)", color="tab:orange")
+    temp_ax.tick_params(axis="y", labelcolor="tab:orange")
 
     handles, labels = combine_legends(axes)
     ax.legend(handles, labels, loc="upper left", fontsize=8)
@@ -164,52 +159,14 @@ def main() -> None:
         .reset_index()
     )
 
-    fig = plt.figure(figsize=(22, 16), constrained_layout=True)
-    grid = fig.add_gridspec(3, 2)
-    axes = [
-        fig.add_subplot(grid[0, 0]),
-        fig.add_subplot(grid[0, 1]),
-        fig.add_subplot(grid[1, 0]),
-        fig.add_subplot(grid[1, 1]),
-        fig.add_subplot(grid[2, :]),
-    ]
-
-    plot_progressive_graph(axes[0], "1. Dehumidifier Power", power_hourly)
-    plot_progressive_graph(
-        axes[1],
-        "2. Power + Indoor Humidity",
+    fig, ax = plt.subplots(figsize=(18, 9), constrained_layout=True)
+    plot_all_data_graph(
+        ax,
         power_hourly,
-        humidity_df=humidity_df,
-    )
-    plot_progressive_graph(
-        axes[2],
-        "3. Power + Indoor Humidity + Indoor Temperature",
-        power_hourly,
-        humidity_df=humidity_df,
-        temp_df=temp_df,
-    )
-    plot_progressive_graph(
-        axes[3],
-        "4. Power + Indoor Humidity + Indoor and Outside Temperature",
-        power_hourly,
-        humidity_df=humidity_df,
-        temp_df=temp_df,
-        outside_temp_df=outside_temp_df,
-    )
-    plot_progressive_graph(
-        axes[4],
-        "5. All Data: Power, Indoor Conditions, Outside Temperature, Weather Station Humidity",
-        power_hourly,
-        humidity_df=humidity_df,
-        temp_df=temp_df,
-        outside_temp_df=outside_temp_df,
-        weather_humidity_df=weather_humidity_df,
-    )
-
-    fig.suptitle(
-        "Dehumidifier data with indoor humidity, indoor temperature, outside temperature, "
-        "and weather station humidity",
-        fontsize=18,
+        humidity_df,
+        temp_df,
+        outside_temp_df,
+        weather_humidity_df,
     )
 
     output_file = output_folder / "dehumidifier_all_data_with_weather_humidity.png"
