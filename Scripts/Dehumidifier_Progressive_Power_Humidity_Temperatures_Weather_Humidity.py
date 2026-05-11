@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+TEMPERATURE_AXIS_OFFSET = 55
+
+
 def find_csv_folder(script_dir: Path) -> Path:
     candidates = [
         script_dir / "data_in_csv",
@@ -99,7 +102,7 @@ def plot_all_data_graph(
 
     temp_ax = ax.twinx()
     axes.append(temp_ax)
-    temp_ax.spines["right"].set_position(("outward", 55))
+    temp_ax.spines["right"].set_position(("outward", TEMPERATURE_AXIS_OFFSET))
     temp_ax.plot(
         temp_df["last_changed"],
         temp_df["temp_c"],
