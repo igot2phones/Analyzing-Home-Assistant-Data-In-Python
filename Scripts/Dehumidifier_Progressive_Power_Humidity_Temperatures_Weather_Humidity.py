@@ -57,11 +57,11 @@ def combine_legends(axes: list[plt.Axes]) -> tuple[list, list]:
 
 def plot_all_data_graph(
     ax: plt.Axes,
-    power_hourly: pd.DataFrame | None,
-    humidity_df: pd.DataFrame | None,
-    temp_df: pd.DataFrame | None,
-    outside_temp_df: pd.DataFrame | None,
-    weather_humidity_df: pd.DataFrame | None,
+    power_hourly: pd.DataFrame,
+    humidity_df: pd.DataFrame,
+    temp_df: pd.DataFrame,
+    outside_temp_df: pd.DataFrame,
+    weather_humidity_df: pd.DataFrame,
 ) -> None:
     required_plot_data = {
         "power_hourly": (power_hourly, {"last_changed", "power_w"}),
@@ -74,8 +74,8 @@ def plot_all_data_graph(
         ),
     }
     for parameter_name, (df, required_columns) in required_plot_data.items():
-        if df is None:
-            raise ValueError(f"Missing required DataFrame parameter: {parameter_name}.")
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError(f"{parameter_name} must be a pandas DataFrame.")
         missing_columns = required_columns - set(df.columns)
         if missing_columns:
             raise ValueError(f"{parameter_name} missing columns: {missing_columns}")
