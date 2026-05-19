@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-# 55 points leaves a clear gap between humidity and temperature labels on the figure.
-TEMPERATURE_AXIS_OFFSET = 55
+# Keep each power/variable pair readable when stacked vertically.
+POWER_BAR_WIDTH_DAYS = 0.03
 
 
 def find_csv_folder(script_dir: Path) -> Path:
@@ -55,93 +55,108 @@ def combine_legends(axes: list[plt.Axes]) -> tuple[list, list]:
     return handles, labels
 
 
-def plot_all_data_graph(
+def plot_power_with_variable(
     ax: plt.Axes,
+    power_hourly: pd.DataFrame,
+    variable_df: pd.DataFrame,
+    *,
+    value_column: str,
+    variable_label: str,
+    variable_ylabel: str,
+    variable_color: str,
+    variable_linestyle: str = "-",
+) -> None:
+    if not isinstance(power_hourly, pd.DataFrame):
+        raise TypeError("power_hourly must be a pandas DataFrame.")
+    if not isinstance(variable_df, pd.DataFrame):
+        raise TypeError("variable_df must be a pandas DataFrame.")
+
+    power_missing_columns = {"last_changed", "power_w"} - set(power_hourly.columns)
+    if power_missing_columns:
+        raise ValueError(f"power_hourly missing columns: {power_missing_columns}")
+
+    variable_missing_columns = {"last_changed", value_column} - set(variable_df.columns)
+    if variable_missing_columns:
+        raise ValueError(f"{variable_label} missing columns: {variable_missing_columns}")
+
+    ax.bar(
+        power_hourly["last_changed"],
+        power_hourly["power_w"],
+        width=POWER_BAR_WIDTH_DAYS,
+        color="tab:blue",
+        alpha=0.6,
+        label="Hourly Power Avg",
+    )
+    ax.set_ylabel("Power (W)", color="tab:blue")
+    ax.tick_params(axis="y", labelcolor="tab:blue")
+    ax.grid(True, alpha=0.3)
+
+    variable_ax = ax.twinx()
+    variable_ax.plot(
+        variable_df["last_changed"],
+        variable_df[value_column],
+        color=variable_color,
+        linewidth=1.8,
+        linestyle=variable_linestyle,
+        label=variable_label,
+    )
+    variable_ax.set_ylabel(variable_ylabel, color=variable_color)
+    variable_ax.tick_params(axis="y", labelcolor=variable_color)
+
+    handles, labels = combine_legends([ax, variable_ax])
+    ax.legend(handles, labels, loc="upper left", fontsize=8)
+    ax.set_title(f"Dehumidifier Power and {variable_label}")
+
+
+def plot_stacked_power_variable_graphs(
+    axes: list[plt.Axes],
     power_hourly: pd.DataFrame,
     humidity_df: pd.DataFrame,
     temp_df: pd.DataFrame,
     outside_temp_df: pd.DataFrame,
     weather_humidity_df: pd.DataFrame,
 ) -> None:
-    required_plot_data = {
-        "power_hourly": (power_hourly, {"last_changed", "power_w"}),
-        "humidity_df": (humidity_df, {"last_changed", "humidity_pct"}),
-        "temp_df": (temp_df, {"last_changed", "temp_c"}),
-        "outside_temp_df": (outside_temp_df, {"last_changed", "outside_temp_c"}),
-        "weather_humidity_df": (
-            weather_humidity_df,
-            {"last_changed", "weather_humidity_pct"},
-        ),
-    }
-    for parameter_name, (df, required_columns) in required_plot_data.items():
-        if not isinstance(df, pd.DataFrame):
-            raise TypeError(f"{parameter_name} must be a pandas DataFrame.")
-        missing_columns = required_columns - set(df.columns)
-        if missing_columns:
-            raise ValueError(f"{parameter_name} missing columns: {missing_columns}")
+    plot_configs = [
+        {
+            "variable_df": humidity_df,
+            "value_column": "humidity_pct",
+            "variable_label": "Indoor Humidity",
+            "variable_ylabel": "Humidity (%)",
+            "variable_color": "tab:green",
+        },
+        {
+            "variable_df": weather_humidity_df,
+            "value_column": "weather_humidity_pct",
+            "variable_label": "Weather Station Humidity",
+            "variable_ylabel": "Humidity (%)",
+            "variable_color": "tab:purple",
+            "variable_linestyle": ":",
+        },
+        {
+            "variable_df": temp_df,
+            "value_column": "temp_c",
+            "variable_label": "Indoor Temperature",
+            "variable_ylabel": "Temperature (°C)",
+            "variable_color": "tab:orange",
+        },
+        {
+            "variable_df": outside_temp_df,
+            "value_column": "outside_temp_c",
+            "variable_label": "Outside Temperature",
+            "variable_ylabel": "Temperature (°C)",
+            "variable_color": "tab:red",
+            "variable_linestyle": "--",
+        },
+    ]
 
-    axes = [ax]
+    if len(axes) != len(plot_configs):
+        raise ValueError(f"Expected {len(plot_configs)} axes, got {len(axes)}.")
 
-    ax.bar(
-        power_hourly["last_changed"],
-        power_hourly["power_w"],
-        width=0.03,
-        color="tab:blue",
-        alpha=0.65,
-        label="Hourly Power Avg",
-    )
-    ax.set_title(
-        "Dehumidifier Power, Indoor Conditions, Outside Temperature, "
-        "and Weather Station Humidity"
-    )
-    ax.set_ylabel("Power (W)", color="tab:blue")
-    ax.tick_params(axis="y", labelcolor="tab:blue")
-    ax.grid(True, alpha=0.3)
+    for ax, config in zip(axes, plot_configs):
+        plot_power_with_variable(ax, power_hourly, **config)
 
-    humidity_ax = ax.twinx()
-    axes.append(humidity_ax)
-    humidity_ax.plot(
-        humidity_df["last_changed"],
-        humidity_df["humidity_pct"],
-        color="tab:green",
-        linewidth=1.8,
-        label="Indoor Humidity",
-    )
-    humidity_ax.plot(
-        weather_humidity_df["last_changed"],
-        weather_humidity_df["weather_humidity_pct"],
-        color="tab:purple",
-        linewidth=1.8,
-        linestyle=":",
-        label="Weather Station Humidity",
-    )
-    humidity_ax.set_ylabel("Humidity (%)", color="tab:green")
-    humidity_ax.tick_params(axis="y", labelcolor="tab:green")
-
-    temp_ax = ax.twinx()
-    axes.append(temp_ax)
-    temp_ax.spines["right"].set_position(("outward", TEMPERATURE_AXIS_OFFSET))
-    temp_ax.plot(
-        temp_df["last_changed"],
-        temp_df["temp_c"],
-        color="tab:orange",
-        linewidth=1.8,
-        label="Indoor Temperature",
-    )
-    temp_ax.plot(
-        outside_temp_df["last_changed"],
-        outside_temp_df["outside_temp_c"],
-        color="tab:red",
-        linewidth=1.8,
-        linestyle="--",
-        label="Outside Temperature",
-    )
-    temp_ax.set_ylabel("Temperature (°C)", color="tab:orange")
-    temp_ax.tick_params(axis="y", labelcolor="tab:orange")
-
-    handles, labels = combine_legends(axes)
-    ax.legend(handles, labels, loc="upper left", fontsize=8)
-    format_x_axis(ax)
+    format_x_axis(axes[-1])
+    axes[-1].set_xlabel("Time")
 
 
 def main() -> None:
@@ -180,9 +195,15 @@ def main() -> None:
         .reset_index()
     )
 
-    fig, ax = plt.subplots(figsize=(18, 9), constrained_layout=True)
-    plot_all_data_graph(
-        ax,
+    fig, axes = plt.subplots(
+        nrows=4,
+        ncols=1,
+        figsize=(18, 16),
+        sharex=True,
+        constrained_layout=True,
+    )
+    plot_stacked_power_variable_graphs(
+        list(axes),
         power_hourly,
         humidity_df,
         temp_df,
@@ -190,7 +211,7 @@ def main() -> None:
         weather_humidity_df,
     )
 
-    output_file = output_folder / "dehumidifier_all_data_with_weather_humidity.png"
+    output_file = output_folder / "dehumidifier_power_with_stacked_variables.png"
     fig.savefig(output_file, dpi=300)
     plt.close(fig)
 
