@@ -160,7 +160,7 @@
 
 ### Κλιματιστικό — Εβδομαδιαία κατανάλωση
 <div align="center">
-  <img src="./plots/history-Midea-living%20room-AC.png" width="900" alt="AC Weekly Consumption">
+  <img src="./plots/history-Midea-living-room-AC.png" width="900" alt="AC Weekly Consumption">
 </div>
 
 **Τι δείχνει:** Η στιγμιαία ισχύς του AC για 7 ημέρες.
@@ -168,7 +168,7 @@
 
 ### Κλιματιστικό — Μεγέθυνση 8 ωρών
 <div align="center">
-  <img src="./plots/history-Midea-living%20room-AC-1-day-zoom.png" width="900" alt="AC 8-hour Zoom">
+  <img src="./plots/history-Midea-living-room-AC-1-day-zoom.png" width="900" alt="AC 8-hour Zoom">
 </div>
 
 **Τι δείχνει:** Zoom σε 8ωρο διάστημα ώστε να φανούν λεπτομέρειες του inverter.
